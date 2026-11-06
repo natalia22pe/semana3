@@ -1,0 +1,18 @@
+{% extends 'aprendices/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow p-4">
+            <h2>Eliminar Aprendiz</h2>
+            <p>¿Estás segura de que deseas eliminar a <strong>{{ aprendiz.nombre }} {{ aprendiz.apellido }}</strong>?</p>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                <a href="{% url 'index' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

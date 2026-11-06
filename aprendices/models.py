@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Programa(models.Model):
     nombre = models.CharField(max_length=23)
     ficha = models.IntegerField()
@@ -10,11 +11,11 @@ class Programa(models.Model):
     nivel_profesional = models.CharField(max_length=20)
     descripcion = models.CharField(max_length=40)
 
-    def __str__(self):      
-        return f"{self.nombre} {self.ficha} - programa: {self.programa} lugar: {self.lugar} {self.duracion} {self.modalidad} {self.nivel_profesional} {self.descripcion}"
+    def __str__(self):
+        return f"{self.nombre} - Ficha: {self.ficha} ({self.programa})"
 
 
-class instructores(models.Model):
+class Instructores(models.Model):
     nombre = models.CharField(max_length=23)
     apellido = models.CharField(max_length=23)
     documento = models.IntegerField(unique=True)
@@ -23,20 +24,19 @@ class instructores(models.Model):
     correo = models.EmailField(unique=True)
     telefono = models.IntegerField(unique=True)
 
-    def __str__(self):      
-        return f"{self.nombre} {self.apellido} {self.documento} {self.especialidad} {self.ficha_asignada} {self.correo} {self.telefono}"
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} - {self.especialidad}"
 
 
 class Aprendiz(models.Model):
     nombre = models.CharField(max_length=23)
     apellido = models.CharField(max_length=23)
-    documento = models.IntegerField(unique=True)
+    documento = models.CharField(max_length=20, unique=True) 
     correo = models.EmailField(unique=True)
-    telefono = models.IntegerField(unique=True)
-    ficha = models.IntegerField()
+    telefono = models.CharField(max_length=20, unique=True)  
+    ficha = models.CharField(max_length=20)                  
     programa = models.CharField(max_length=50)
 
-    # Cardinalidad corregida (nombre de atributo en minúscula)
     programa_rel = models.ForeignKey(
         Programa,
         on_delete=models.CASCADE,
@@ -45,8 +45,8 @@ class Aprendiz(models.Model):
         blank=True
     )
 
-    def __str__(self):      
-        return f"{self.nombre} {self.apellido} Doc: {self.documento} {self.correo} {self.telefono} - Ficha: {self.ficha} {self.programa}"
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} - Doc: {self.documento}"
 
 
 class Competencias(models.Model):
@@ -63,12 +63,12 @@ class Competencias(models.Model):
     )
 
     instructores_rel = models.ForeignKey(
-        instructores,
-        on_delete=models.CASCADE,                        
+        Instructores,
+        on_delete=models.CASCADE,
         related_name="competencias_instructores",
         null=True,
-        blank=True                                     
+        blank=True
     )
 
-    def __str__(self):      
-        return f"{self.nombre} {self.ficha} {self.instructor}"
+    def __str__(self):
+        return f"{self.nombre} - Ficha: {self.ficha}"

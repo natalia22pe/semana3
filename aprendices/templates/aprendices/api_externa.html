@@ -1,0 +1,16 @@
+{% extends 'aprendices/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Días Festivos en Colombia (Consumo de API)</h2>
+    <ul class="list-group mt-3">
+        {% for f in festivos %}
+            <li class="list-group-item"><strong>{{ f.date }}</strong> - {{ f.localName }}</li>
+        {% empty %}
+            <li class="list-group-item">No se pudo cargar la información de la API.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'index' %}" class="btn btn-secondary mt-3">Volver al inicio</a>
+</div>
+{% endblock %}
